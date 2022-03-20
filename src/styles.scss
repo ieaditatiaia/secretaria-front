@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(29, 29, 29);
+  background-color: rgb(87, 87, 87);
+}
+
+.card {
+  padding: 10px;
+}
+
+@media (min-width: 1270px) {
+  .container {
+      width: 1300px;
+      margin: 0 auto;
+  }
+}
+
+.text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-edit {
+  display: flex;
+  justify-content: space-between;
+}
+h2, label {
+  color: rgb(1, 245, 253);
+}
+
+button {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.p-submenu-list {
+  width: max-content !important;
+}
+
+.p-selectbutton {
+  height: 40px;
+}
+
+.col-100 {
+  width: 100px;
+}
+
+.col-160 {
+  width: 160px;
+}

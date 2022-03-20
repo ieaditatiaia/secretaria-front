@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="card">
+
+    <div class="title-edit">
+      <h2><i class="pi pi-pencil"></i> {{ edition ? 'Edição cadastral' : 'Novo cadastro'}}</h2><h2><i class="pi pi-book"></i> Apresentação de criança</h2>
+    </div>
+
+    <form autocomplete="off" #kidForm="ngForm" (ngSubmit)="save(kidForm)">
+
+      <div class="formgrid grid">
+
+          <div class="field col-12 md:col-6 lg:col-6">
+              <label for="name">Nome</label>
+              <input id="name" type="text" pInputText name="name" [(ngModel)]="kid.name" #nameInput="ngModel" required minlength="5"
+                class="inputfield w-full p-inputtext-sm" placeholder="Nome completo da criança" style="font-weight:bold; font-size: medium;">
+                <app-message [control]="nameInput" error="required" text="Informe o nome completo da criança"></app-message>
+                <app-message [control]="nameInput" error="minlength" text="Mínimo de {{ nameInput.errors?.['minlength']?.requiredLength }} caracteres."></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-3">
+            <label for="birthday">Nascimento</label>
+            <p-calendar id="birthday" [(ngModel)]="kid.birthday" [showIcon]="true" inputId="icon"
+              dateFormat="dd/mm/yy" [showButtonBar]="true" name="birthday" #birthdayCal="ngModel" class="inputfield p-fluid p-inputtext-sm">
+            </p-calendar>
+            <app-message [control]="birthdayCal" error="required" text="Informe a data de nascimento"></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-3">
+            <label for="presentation">Apresentação</label>
+            <p-calendar id="presentation" [(ngModel)]="kid.datePresentation" [showIcon]="true" inputId="icon"
+              dateFormat="dd/mm/yy" [showButtonBar]="true" name="presentation" #presentationCal="ngModel" class="inputfield p-fluid p-inputtext-sm">
+            </p-calendar>
+            <app-message [control]="presentationCal" error="required" text="Informe a data de apresentação"></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-3">
+            <label for="gender">Gênero</label>
+            <p-selectButton [options]="genders" name="gender" [(ngModel)]="kid.gender" optionLabel="name" optionValue="code"
+              class="inputfield p-fluid" #genderDown="ngModel" [required]="true"></p-selectButton>
+            <app-message [control]="genderDown" error="required" text="Informe o gênero"></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-5">
+            <label for="mother">Mãe</label>
+            <input id="mother" type="text" pInputText  name="mother" [(ngModel)]="kid.motherName" #motherInput="ngModel" minlength="5"
+              class="inputfield w-full p-inputtext-sm" placeholder="Nome completo da mãe">
+            <app-message [control]="motherInput" error="required" text="Informe o nome completo da mãe"></app-message>
+            <app-message [control]="motherInput" error="minlength" text="Mínimo de {{ motherInput.errors?.['minlength']?.requiredLength }} caracteres."></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-4">
+              <label for="father">Pai</label>
+              <input id="father" type="text" pInputText name="father" [(ngModel)]="kid.fatherName" #fatherInput="ngModel" minlength="5"
+                class="inputfield w-full p-inputtext-sm" placeholder="Nome completo do pai">
+              <app-message [control]="fatherInput" error="required" text="Informe o nome completo do pai"></app-message>
+              <app-message [control]="fatherInput" error="minlength" text="Mínimo de {{ fatherInput.errors?.['minlength']?.requiredLength }} caracteres."></app-message>
+            </div>
+
+          <div class="field col-12 md:col-6 lg:col-4">
+            <label for="locale">Congregação</label>
+            <p-dropdown [options]="locales" optionLabel="name" optionValue="code" placeholder="Selecione ..."
+              class="inputfield p-inputtext-sm" name="localeId" [(ngModel)]="kid.locale" #localeDown="ngModel" [style]="{ width: '100%', overflow: 'visible' }"
+              [filter]="true" [required]="true">
+            </p-dropdown>
+            <app-message [control]="localeDown" error="required" text="Informe o local de apresentação"></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-4">
+            <label for="priest">Sacerdote</label>
+            <input id="priest" type="text" pInputText name="priest" [(ngModel)]="kid.priest" #priestInput="ngModel" required minlength="5"
+              class="inputfield w-full p-inputtext-sm" placeholder="Cargo e nome completo do sacerdote">
+            <app-message [control]="priestInput" error="required" text="Informe o nome do sacerdote"></app-message>
+            <app-message [control]="priestInput" error="minlength" text="Mínimo de {{ priestInput.errors?.['minlength']?.requiredLength }} caracteres."></app-message>
+          </div>
+
+          <div class="field col-12 md:col-6 lg:col-4">
+            <label for="certificate">Status do Certificado</label>
+            <p-dropdown [options]="certificate" optionLabel="name" optionValue="code" placeholder="Selecione ..."
+              class="inputfield p-inputtext-sm" name="certificate" [(ngModel)]="kid.issuingCertificate" #certificateDown="ngModel" [style]="{ width: '100%', overflow: 'visible' }"
+              [required]="true">
+            </p-dropdown>
+            <app-message [control]="certificateDown" error="required" text="Informe o status do certificado"></app-message>
+          </div>
+
+          <div class="col-12 md:col-7 lg:col-2">
+            <button pButton pRipple type="submit" label="Salvar" icon="pi pi-check" class="p-button-raised p-button-primary w-full"
+              [disabled]="!kidForm.valid"
+            ></button>
+          </div>
+
+          <div class="col-12 md:col-5 lg:col-2">
+            <button pButton pRipple type="button" label="Cancelar" icon="pi pi-times" class="p-button-raised p-button-secondary w-full" (click)="cancel(kidForm)"></button>
+          </div>
+
+        </div>
+      </form>
+      </div>
+
+  </div>
+

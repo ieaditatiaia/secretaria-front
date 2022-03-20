@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <div class="title-edit">
+        <h2><i class="pi pi-list"></i> Listagem e pesquisa</h2><h2><i class="pi pi-book"></i> Apresentação de criança</h2>
+      </div>
+    </div>
+
+    <form autocomplete="off" (ngSubmit)="search()">
+      <div class="col-12 md:col-4">
+        <div class="p-inputgroup">
+          <button type="button" pButton pRipple icon="pi pi-plus" [routerLink]="['/kids/new']"
+           styleClass="p-button-success" pTooltip="Cadastrar" tooltipPosition="top"></button>
+            <input id="inputSearch" type="text" pInputText placeholder="Nome da criança" name="filter" [(ngModel)]="filter.name"/>
+            <button type="submit" pButton pRipple icon="pi pi-search" styleClass="p-button-danger" pTooltip="Pesquisar"></button>
+          </div>
+        </div>
+    </form>
+
+    <div class="col-12">
+        <p-table [value]="kids" [paginator]="true" [rows]="5" [lazy]="true" [totalRecords]="totalRegisters"
+          (onLazyLoad)="onChangePage($event)" styleClass="p-datatable-striped p-datatable-sm"
+          responsiveLayout="stack" #table>
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Nome</th>
+                  <th class="col-100">Nascimento</th>
+                  <th>Mãe</th>
+                  <th>Congregação</th>
+                  <th class="col-100">Apresentação</th>
+                  <th class="col-100">Certificado</th>
+                  <th class="col-160"></th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-kid>
+              <tr>
+                  <td>{{kid.name}}</td>
+                  <td class="col-100">{{kid.birthday | date: 'dd/MM/y'}}</td>
+                  <td>{{kid.motherName}}</td>
+                  <td>{{kid.locale}}</td>
+                  <td class="col-100">{{kid.datePresentation | date: 'dd/MM/y'}}</td>
+                  <td class="col-100">{{kid.issuingCertificate}}</td>
+                  <td class="col-160">
+                    <span *ngIf="kid.issuingCertificate === 'PENDENTE'">
+                      <button pButton pRipple type="button" icon="pi pi-file-pdf" class="p-button-rounded p-button-warning p-button-text"
+                        pTooltip="Emitir certificado" tooltipPosition="bottom" (click)="certificate(kid.id)"></button>
+                    </span>
+                    <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text" pTooltip="Editar"
+                     tooltipPosition="bottom" [routerLink]="['/kids', kid.id]"></button>
+                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                      pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmDelete(kid.id)"></button>
+                  </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="7">
+                Nenhum cadastro foi encontrado
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+</div>
